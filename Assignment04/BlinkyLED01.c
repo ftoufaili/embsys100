@@ -3,7 +3,7 @@
 
 
 #define RCC_AHB2ENR  (*((unsigned int*) (RCC_BASE + 0x4C)))             // RCC_AHB2ENR: Enable clock to GPIOA
-#define GPIO_MODER   (*((unsigned int*)(GPIOA_BASE + 0x0)))             // 
+#define GPIO_MODER   (*((unsigned int*)(GPIOA_BASE + 0x0)))            
 #define GPIOx_ODR     (*((unsigned int*)(GPIOA_BASE + 0x14)))
 
 #define ORD5  (1 << 5)  // for setting the 5th bit in the GPIOx_ORD to toggle LED1
