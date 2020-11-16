@@ -11,6 +11,7 @@
 *iv)* fourth instruction for writing/storing the value in R1 into the address pointed to by R0. 
 
 The described instructions above are captured in the image below:
+
 ![Bit Banding Vs No Bit Banding](https://github.com/ftoufaili/embsys310/blob/main/Assignment04/Images/BitBandingVsNoBitBanding.jpg)
 
 
