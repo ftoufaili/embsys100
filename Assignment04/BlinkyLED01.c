@@ -17,7 +17,7 @@ int main()
   
     // bit_band_base = 0x42000000 
     // bit_offset = 0x2104c
-    // bit_number = 5  (NOTE, since this is little indian, we'll be targeting bit 0 in the MSB instead)
+    // bit_number = 5  (NOTE, since this is little endian, we'll be targeting bit 0 in the MSB instead)
     // bit_word_address = 0x42000000 + (0x2104C*32) + (0*4) = 0x42420994
    *((unsigned int*)((0x42000000) + (0x2104C*32) + (0*4) )) = 0x1;
  
