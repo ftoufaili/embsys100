@@ -23,6 +23,9 @@ The described instructions above are captured in the image below:
 
 **c)** With the multiple list of arguments, the compiler generated code to retrieve the 5th argument value that is stored in the SP register before adding all the values
 
+**d)** - Since there were too many passed parameters to store in R0 through R3 registers, the 5th parameter was stored in memory instead. 
+
+
 
 
 
