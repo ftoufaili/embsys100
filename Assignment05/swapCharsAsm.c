@@ -1,3 +1,27 @@
+#include <assert.h>
+
+int swapCharsAsm(char* ch1, char* ch2);
+
+int main(void)
+{
+  char x = 'a';
+    char y = 'b';
+    
+    int retVal = swapCharsAsm(&x, &y); 
+    
+    assert (x == 'b');
+    assert (y == 'a');
+    assert (retVal == 1);
+    
+    x = 'a';
+    y = 'a';
+    
+    retVal = swapCharsAsm(&x, &y); 
+    assert (retVal == 0);
+  
+  return 0;
+}
+
 /*******************************************************************************
 Function Name   : swapCharAsm
 Description     : Assembly function to swap two characters 
@@ -41,10 +65,8 @@ int swapCharsAsm(char* ch1, char* ch2)
       "BNE.N ResultNotEQLabel\n" // branch to ResultNotEQ label 
       "MOVS R0, #0\n"     // put 0 in R0 (i.e. function return register) 
                           // if results are equal
-      "B ExitLabel\n"     // Go to ExitLabel
-      
-      
-        
+      "B ExitLabel\n"     // Go to ExitLabel   
+              
 "ResultNotEQLabel:\n"     // label
       "MOVS R0, #1\n"     // put 1 in R0 (i.e. function return register) 
                           // if results are not equal  
