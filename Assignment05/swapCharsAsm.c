@@ -72,7 +72,7 @@ int swapCharsAsm(char* ch1, char* ch2)
                           // if results are not equal  
 "ExitLabel:\n"            // exit label
       "POP {R4}\n"        // restore R4 value before existing the function
-      "BX LR\n"           // return result in R     
+      "BX LR\n"           // return result in R0     
       "MOVS R0, R0\n"
       );           
 }
