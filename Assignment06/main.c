@@ -1,29 +1,16 @@
-#include "stm32l475xx.h"
+#include <stdint.h>
 
-int main()
-{  
-   // Enable RCC clock to GPIOA
-   RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-      
-  // Set bits 10 and 11 to 1 and 0 to enable general purpose 
-  // output mode
-  GPIOA->MODER &= ~GPIO_MODER_MODE5_1;
-  GPIOA->MODER |= GPIO_MODER_MODE5_0;
-  
-  int counter = 0;
-  
-  while(1)
-      {     
-          counter = 0; 
-          
-          while( counter < 40000 )
-          {     
-                counter++;
-          } 
-                
-          // Toggle ODR LED1 bit 5 using XOR logic
-          GPIOA->ODR ^= GPIO_ODR_OD5;
-      }     
-  
-  return 0;
+#define LED_ON 1
+#define LED_OFF 0
+#define DELAY_DURATION 100000
+
+void control_user_led1(uint8_t state, uint32_t duration);
+
+void main(void)
+{    
+    while(1)
+    {
+        control_user_led1(LED_ON, DELAY_DURATION);
+        control_user_led1(LED_OFF, DELAY_DURATION);
+    }
 }
