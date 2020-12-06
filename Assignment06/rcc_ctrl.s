@@ -49,21 +49,27 @@ Return value    : None
 *******************************************************************************/  
 
 // Bitband address calculation formula
-// (0x42000000+(0x2104C *32) + (1*4))) = 0x1;
-
+// (0x42000000+(0x2104C *32) + (0*4))) = 0x1;
+// bit_band_base = 0x42000000 
+// bit_offset = 0x2104c
+// bit_number = 0 
+// bit_word_address = 0x42000000 + (0x2104C*32) + (0*4) = 0x42420994
+ 
 enable_rcc
-   
-   MOVS R2, R0        //store the port number in R2
-   
-   MOVS R3, #1       // load 0x01 in R3
-   LSLS R3, R3, R2   // left shift the value in R3 (i.e. 0x01) by the port number argument stored in R2
-   
-   //Enable RCC for GPIOA by setting bit 0 of memory pointed to by address 0x4002 104c to 0x01
-   MOVW  R1, #4172    // (#4172 = 0x104c) load the lower 16-bits of the bit-band address in R1 (R1 = 0x0000 104c)  
-   MOVT  R1, #16386    // (#16386 = 0x4002) load the upper 16-bits of the bit-band address in R1 ( (R1 & 0xffff ) | (0x4002 << 16) ) R1 now equal 0x4002 104c
-   
-   STR       R3, [R1] 	// store the R3 value in memory address pointed to by R1 (i.e. the bit-band address) *((uint32_t*)(0x42420994)) = 0x1;
 
-   BX        LR           // Return
+   MOV R1, #4           // Store 4 in R1
+   MUL R0, R0, R1       // multiple the port number (stored in R0) by 4 (stored in R1) and store the result in R0
+   
+   // Set the value of the R1 register to 0x42420980 (= 0x42000000+(0x2104C *32)) 
+   MOVW  R1, #0x0980    // Set the lower 16-bits of R1 to 0x0x0980 (R1 = 0x0000'0980)  
+   MOVT  R1, #0x4242    // Set the upper 16-bits of R1 to 0x4242  ( (R1 & 0xffff ) | (0x4242 << 16) ) R1 now equal 0x4242'0980
+   
+   ADD R0, R0, R1      // Add the port number stored in R0 to R1 and store result back in R0
+  
+   MOV R2, #0x1        // Store 0x01 in R2
+
+   STR R2, [R0]        // Set the value of the address pointed to by R0 to 0x01 
+   
+   BX        LR        // Return
    
    END
