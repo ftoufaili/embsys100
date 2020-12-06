@@ -67,27 +67,28 @@ control_user_led1
   
   // Update GPIO_MODER at address 0x48000000 by setting bits 10 and 11 to 1 and 0 respectively to
   // enable general purpose output mode ((*((unsigned int*)(0x48000000))) &= 0xABFFF7FF;) Original GPOIA Moder value is 0xABFFFFFF
-  MOVS  R1, #1207959552   // R1 = 0x48000000 
-  LDR   R2, [R1]  		  // load value at memory address 0x48000000 in R2
+  MOVW  R1, #0x0000  // R1 = 0x00000000
+  MOVT  R1, #0x4800  // R1 = 0x48000000
+  LDR   R2, [R1]  	 // load value at memory address 0x48000000 in R2
   
   // update R0 register value to 0xabfff7ff
-  MOVW  R0, #63487   // (63487 = 0xf7ff) (R0 = 0x0000 f7ff)  
-  MOVT  R0, #44031   // (44031 = 0xabff) R0 = ( (R0 & 0xffff ) | (0xabff << 16) ) R1 now equal 0xabfff7ff
+  MOVW  R0, #0xf7ff     // Set lower 16-bits of R0 to 0xf7ff) (R0 = 0x0000 f7ff)  
+  MOVT  R0, #0xabff     // Set upper 16-bits of R0 to0xabff) R0 = ( (R0 & 0xffff ) | (0xabff << 16) ) R0 now equal 0xabfff7ff
   
   ANDS  R2, R2, R0	  // R2 &= R0
   STR   R2, [R1]	  // Update GPIOA Moder value in memory
   
    // loading the GPIOA->ODR address in register R2 so it can be used to turn LED1 ON or OFF
-   MOVW  R2, #20      // (20 = 0014) (R0 = 0x0000 0014)  
-   MOVT  R2, #18432   // (18432 = 0x4800) R0 = ( (R0 & 0xffff ) | (0x4800 << 16) ) R1 now equal 0x4800'0014
-   LDR       R3, [R2]			// load GPIOA->ODR value pointed to by R2 in R3
+   MOVW  R2, #0x0014       // (R2 = 0x0000 0014)  
+   MOVT  R2, #0x4800       //  R2 = ( (R2 & 0xffff ) | (0x4800 << 16) ) R2 now equal 0x4800'0014
+   LDR   R3, [R2]	   // load GPIOA->ODR value pointed to by R2 in R3
    
    // compare the state parameter to see if we are turning the LED on or OFF
    CMP       R4, #1
    BNE.N     TURN_OFF_LED_LABEL	// if not equal, go to TURN_OFF_LED_LABEL label to turn off the LED
     
    // Updating the GPIOA ODR to turn on the LED ON (GPIOA->ODR |= GPIO_ODR_OD5) 
-   ORRS.W    R3, R3, #32        //GPIOA->ODR |= 0x20
+   ORRS.W    R3, R3, #0x20        //GPIOA->ODR |= 0x20
    STR       R3, [R2]			// Store R3 value in address specified by R2 
    BL        EXIT_FUNC_LABEL    // branch to EXIT_FUNC_LABEL
    
@@ -106,4 +107,4 @@ EXIT_FUNC_LABEL:
    BX        LR
    MOVS      R0, R0
 
-    END
+   END
